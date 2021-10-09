@@ -7,24 +7,24 @@ from sklearn.model_selection import KFold
 
 # 读取 csv
 anime_train_df = pd.read_csv("data/anime_genres_splitted.csv" , header=None)
-col_num = len(anime_train_df.columns.tolist())
 
-# 采样 sampling
-x = anime_train_df
-kf = KFold(n_splits=10,shuffle=True)
+# Separate dataset to train and test
+kf = KFold(n_splits=3,shuffle=True, random_state=3)
 shuffle_index = 0
-for train_index, test_index in kf.split(x):
+# sheffle_arr = kf.split(anime_train_df)
+# print(sheffle_arr)
+for train_index, test_index in kf.split(anime_train_df):
   shuffle_index+=1
   print(train_index,test_index)
 
   # 拆分 test 和 train
   # drop 掉 test 的部分
-  train_sample = anime_train_df.drop(train_index)
+  train_sample = anime_train_df.drop(test_index)
   X_train = train_sample[train_sample.columns[1:]]
   y_train = train_sample[0]
 
   # drop 掉 train 的部分
-  test_sample = anime_train_df.drop(test_index)
+  test_sample = anime_train_df.drop(train_index)
 
   X_test = test_sample[test_sample.columns[1:]]
   y_test = test_sample[0]
@@ -44,11 +44,14 @@ for train_index, test_index in kf.split(x):
 
   # param:
   #  0. regression task
-  #  1. learning rate: 0.2
+  #  1. learning rate: 0.1
   #  2. regular lambda: 0.002
   #  3. evaluation metric: acc
-  param = {'task':'binary', 'lr':0.1, 
-          'lambda':0.002, 'metric':'acc', 'k':2}
+  #  4. degree: 5
+  #  5. epoch: 200
+  param = {'task':'binary', 'lr':0.05, 
+          'lambda':0.002, 'metric':'acc', 'k':5, 'epoch': 200}
+  # fm_model.cv(param)
 
   # Start to train
   # The trained model will be stored in model.out
@@ -59,7 +62,7 @@ for train_index, test_index in kf.split(x):
   # that is, you can also pass xl.DMatrix for this API now
   fm_model.setTest(xdm_test)  # Test data
   # fm_model.setSign()  # Convert output to 0, 1
-  # fm_model.setSigmoid()  # Convert output to 0-1
+  fm_model.setSigmoid()  # Convert output to 0-1
 
   # Start to predict
   # The output result will be stored in output.txt
