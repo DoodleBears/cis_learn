@@ -1,5 +1,6 @@
 .history
 *.gz
+*.7z
 *.csv
 ffm/data/recsys2017.pub/eval/*.txt
 .gitignore
