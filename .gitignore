@@ -12,3 +12,9 @@ ffm/data/recsys2017.pub.tar
 dataset/kkbox/data_origin
 dataset/kkbox/train/fm/data/*.csv
 *.csv
+dataset/kkbox/train/ffm/data/*.txt
+dataset/kkbox/train/ffm/data/*.bin
+dataset/kkbox/train/ffm/*.txt
+dataset/kkbox/train/ffm/*.out
+dataset/kkbox/train/fm/*.txt
+dataset/kkbox/train/fm/*.out
