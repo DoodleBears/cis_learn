@@ -6,3 +6,8 @@ ffm/data/recsys2017.pub/eval/*.txt
 .gitignore
 ffm/data/recsys2017.pub/eval/trained/warm/*.bin
 ffm/data/recsys2017.pub.tar
+*.json
+*.ERROR
+*.INFO
+*.WARN
+*.txt
