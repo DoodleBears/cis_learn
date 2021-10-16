@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import xlearn as xl
 
-merge_train_df = pd.read_csv('../../data_cleaned/merge_train_songs_members.csv')
+merge_train_df = pd.read_csv('../../data_cleaned/merge_train_songs_members_int.csv')
 
 y_full = pd.DataFrame(merge_train_df.target)
 
