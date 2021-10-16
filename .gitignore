@@ -1,13 +1,14 @@
 .history
 *.gz
 *.7z
-*.csv
+dataset/twitch/*.csv
 ffm/data/recsys2017.pub/eval/*.txt
 .gitignore
 ffm/data/recsys2017.pub/eval/trained/warm/*.bin
 ffm/data/recsys2017.pub.tar
-*.json
 *.ERROR
 *.INFO
 *.WARN
-*.txt
+dataset/kkbox/data_origin
+dataset/kkbox/train/fm/data/*.csv
+*.csv
