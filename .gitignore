@@ -18,3 +18,5 @@ dataset/kkbox/train/ffm/*.txt
 dataset/kkbox/train/ffm/*.out
 dataset/kkbox/train/fm/*.txt
 dataset/kkbox/train/fm/*.out
+dataset/kkbox/train/fm/data/*.txt
+dataset/kkbox/train/fm/data/*.bin

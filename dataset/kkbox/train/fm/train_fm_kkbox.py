@@ -1,65 +1,32 @@
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
 import xlearn as xl
+import sys
 
-# merge_train_df = pd.read_csv('../../data_cleaned/merge_train_songs_members_int.csv')
+test_file_path = "data/fm_test_data_100.txt"
 
-# y_full = pd.DataFrame(merge_train_df.target)
+index = int(sys.argv[1])
 
-# X_full = merge_train_df.drop(columns=['target'], axis=1)
-# X_full = X_full.drop(columns=['genre_ids'], axis=1)
-
-# X_full = X_full.drop(columns=['genre_ids_solo'], axis=1)
-# X_full = X_full.drop(columns=['gender'], axis=1)
-# X_full = X_full.drop(columns=['city', 'bd'], axis=1)
-# X_full = X_full.drop(columns=['source_system_tab', 'source_screen_name', 'source_type'], axis=1)
-# # X_full = X_full.drop(columns=['msno'], axis=1)
-# # X_full = X_full.drop(columns=['song_id'], axis=1)
-# X_full = X_full.drop(columns=['song_length'], axis=1)
-# X_full = X_full.drop(columns=['artist_name'], axis=1)
-# X_full = X_full.drop(columns=['composer', 'lyricist'], axis=1)
-# X_full = X_full.drop(columns=['registration_init_time', 'expiration_date'], axis=1)
-# X_full = X_full.drop(columns=['registration_year'], axis=1)
-# X_full = X_full.drop(columns=['registered_via'], axis=1)
-# X_full = X_full.drop(columns=['language'], axis=1)
-
-# X_train, X_valid, y_train, y_valid = train_test_split(X_full, y_full, train_size=0.2, test_size= 0.1, shuffle=True, random_state=0)
-
-# X_train = pd.read_csv('data/X_train.csv', header=None)
-# X_valid = pd.read_csv('data/X_valid.csv', header=None)
-# y_train = pd.read_csv('data/y_train.csv', header=None)
-# y_valid = pd.read_csv('data/y_valid.csv', header=None)
-# X_train = np.array(X_train)
-# X_valid = np.array(X_valid)
-# y_train = np.array(y_train)
-# y_valid = np.array(y_valid)
-# print(X_train)
-
-# xdm_train = xl.DMatrix(X_train, y_train)
-# xdm_test = xl.DMatrix(X_valid, y_valid)
+print("data/fm_train_data_{}.txt".format(index))
+train_file_path = "data/fm_train_data_{}.txt".format(index)
 
 # 开始 train
 fm_model = xl.create_fm()  # Use factorization machine
 # fm_model.setNoBin()
-fm_model.setTrain('data/merge_train.csv')  # Validation data
-fm_model.setValidate('data/merge_test.csv')  # Validation data
-# fm_model.setTrain(xdm_train)    # Training data
-# fm_model.setValidate(xdm_test)  # Validation data
-fm_model.disableNorm()
+fm_model.setTrain(train_file_path)  # Validation data
+fm_model.setValidate(test_file_path)  # Validation data
+
 # fm_model.disableEarlyStop()
 # param
-param = {'task':'binary', 'lr':0.2, 'k': 4,
-         'lambda':0.002, 'metric':'acc', 'epoch': 20}
+param = {'task':'binary', 'lr':1.2, 'k': 4,
+         'lambda':0.002, 'metric':'acc', 'epoch': 100 , 'stop_window': 3}
 
 # Start to train
 # The trained model will be stored in model.out
-fm_model.fit(param, './model_dm.out')
+fm_model.fit(param, './fm_model_{}.out'.format(index))
 
-fm_model.cv(param)    # Perform cross-validation.
+# fm_model.cv(param)    # Perform cross-validation.
 # Prediction task
-fm_model.setTest('data/merge_test.csv')  # Test data
+fm_model.setTest(test_file_path)  # Test data
 fm_model.setSign()  # Convert output to 0-1
 
 # Start to predict
-res = fm_model.predict("./model_dm.out", "./output.txt")
+res = fm_model.predict('./fm_model_{}.out'.format(index), "./fm_output_{}.txt".format(index))
