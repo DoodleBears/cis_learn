@@ -1,8 +1,13 @@
+# 运行方式(How to run): python train_fm_kkbox.py <suffix-of-data-name>
+# 这边使用 100% 的 train set 去 train 则: python train_fm_kkbox.py 100
+# 这边使用 20% 的 train set 去 train 则: python train_fm_kkbox.py 20
+
 import xlearn as xl
 import sys
 
-test_file_path = "data/fm_test_data_100.txt"
+test_file_path = "data/fm_test_data_20.txt"
 
+# 读入输入的变量
 index = int(sys.argv[1])
 
 print("data/fm_train_data_{}.txt".format(index))
@@ -16,8 +21,8 @@ fm_model.setValidate(test_file_path)  # Validation data
 
 # fm_model.disableEarlyStop()
 # param
-param = {'task':'binary', 'lr':1.2, 'k': 4,
-         'lambda':0.002, 'metric':'acc', 'epoch': 100 , 'stop_window': 3}
+param = {'task':'binary', 'lr':0.2, 'k': 4,
+         'lambda':0.002, 'metric':'acc', 'epoch': 100}
 
 # Start to train
 # The trained model will be stored in model.out
